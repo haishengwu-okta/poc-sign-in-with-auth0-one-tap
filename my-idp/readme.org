@@ -1,0 +1,12 @@
+#+title: Readme
+
+
+* TODO
+1. user login in index.ejs
+2. how to login user?
+   - ~/authorize~ call
+   - handle callback
+   - redirect to ~/~
+3. make sure session exists
+4. add api ~/account/state~
+5. add api ~/account/select~
