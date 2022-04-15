@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "Xprebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc && cp -r src/views dist",
     "prestart": "npm run build",
     "start": "node .",
@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
     "express-openid-connect": "^2.7.2",
