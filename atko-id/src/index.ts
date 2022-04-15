@@ -46,6 +46,7 @@ app.get("/", (req, res) => {
   if (req.oidc.isAuthenticated()) {
     isLogin = true;
     profile = JSON.stringify({
+      picture: req.oidc.user.picture,
       name: req.oidc.user.name,
       email: req.oidc.user.email,
     }, null, 2);
