@@ -1,7 +1,7 @@
 #+title: Readme
 
 
-* TODO [6/7]
+* TODO [8/8]
 1. [X] user login in ~index.ejs~
 2. [X] how to login user?
    - ~/authorize~ call
@@ -11,4 +11,5 @@
 4. [X] enable CORS
 5. [X] add api ~/account~
 6. [X] add api ~/iframe/select~
-7. [ ] handler for ~continue as...~ button
+7. [X] handler for ~continue as...~ button
+8. [X] delete ~sid~ when logout from atko.id

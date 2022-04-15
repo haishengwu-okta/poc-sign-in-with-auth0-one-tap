@@ -11,7 +11,7 @@
              border-radius: 5px;
              padding: 10px;
          }
-         button {
+         input[type="submit"] {
              padding: 5px;
              background-color: #1662dd;
              color: white;
@@ -22,16 +22,18 @@
     </head>
     <body>
         <div class="container">
-            <h3>SignIn with Atko.ID</h3>
+            <h3>SignIn with AtkoID</h3>
             <hr/>
             <h3 class="header">
                 <img src=<%=user.picture%> style="width:30px;height:30px;border-radius:15px;" />
                 <%= user.email %>
             </h3>
-            <button>Continue as <%= user.name%></button>
-            <p class="wk4LHf" id="gdpr-message" tabindex="-1">
+            <form method="post" action="/iframe/continue">
+              <input type="submit" value="Continue as <%= user.name%>" />
+            </form>
+            <p id="gdpr-message" tabindex="-1">
                 To create your account, AtkoID will share your name, email address,
-                and profile picture with pokta POC - SignIn with AtkoID.
+                and profile picture with Acme Health.
             </p>
         </div>
     </body>

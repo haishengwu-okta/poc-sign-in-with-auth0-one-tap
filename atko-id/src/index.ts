@@ -11,11 +11,12 @@ const app = express();
 const port = 3000; // default port to listen
 
 const poorManCache: Record<string, any> = {};
+const baseUrl = 'https://atko.id:3000';
 
 const config = {
   authRequired: false,
   auth0Logout: true,
-  baseURL: 'https://atko.id:3000',
+  baseURL: baseUrl,
   secret: 'very secret === ---',
   clientID: '19QWwZqmvAVS7qxfnb6nNE0Vmv8bQmMe',
   clientSecret: 'TkSS9vsPZS-MYGl3EJxb5pM_fSFf6YFp_LpLRGfbjeifat5zMSNswx9HSZ-Gmj8u',
@@ -44,7 +45,10 @@ app.get("/", (req, res) => {
   let profile = '';
   if (req.oidc.isAuthenticated()) {
     isLogin = true;
-    profile = JSON.stringify(req.oidc.user, null, 2);
+    profile = JSON.stringify({
+      name: req.oidc.user.name,
+      email: req.oidc.user.email,
+    }, null, 2);
     poorManCache[req.oidc.user.sub] = req.oidc.user;
     res.cookie(
       'sid',
@@ -56,6 +60,8 @@ app.get("/", (req, res) => {
         sameSite: 'none',
       }
     )
+  } else {
+    res.clearCookie('sid');
   }
   res.render("index", {
     isLogin,
@@ -71,17 +77,28 @@ const corsOpt = {
   credentials: true,
 };
 
+// /account and /iframe/select support to take `client_id` as parameter
+// in order to find the origin etc.
+//
 app.get('/account', cors(corsOpt), (req, res) => {
   res.json({
-    e: !!(req.cookies.sid)
+    e: !!(req.cookies.sid) ? 1 : 0,
   });
 });
 app.get('/iframe/select', cors(corsOpt), (req, res) => {
   const u = poorManCache[req.cookies.sid] || {};
-  console.log((req.cookies.sid), u.email);
-  res.render('iframe-select', {user: u});
-  // res.send(`Hello ${u.name}! Continue as ${u.email}`);
+  console.log('/iframe/select', req.cookies.sid, u.email);
+  res.render('iframe-select', { user: u });
 });
+app.post('/iframe/continue', (req, res) => {
+  const u = poorManCache[req.cookies.sid] || {};
+  console.log('/iframe/continue', req.cookies.sid, u.email);
+  res.render('iframe-continue', {
+    user: u,
+    origin: corsOpt.origin,
+  });
+});
+
 
 app.get("/email", (req, res) => {
   axios.post(`${config.issuerBaseURL}/passwordless/start`, {
@@ -104,11 +121,11 @@ app.get("/email", (req, res) => {
 https
   .createServer(
     {
-    key: fs.readFileSync(__dirname + '/../cert/foo.key'),
-    cert: fs.readFileSync(__dirname + '/../cert/foo.crt'),
-  },
-               app)
- .listen(port, () => {
-  // tslint:disable-next-line:no-console
-  console.log(`server started at https://localhost:${port}`);
-});
+      key: fs.readFileSync(__dirname + '/../cert/foo.key'),
+      cert: fs.readFileSync(__dirname + '/../cert/foo.crt'),
+    },
+    app)
+  .listen(port, () => {
+    // tslint:disable-next-line:no-console
+    console.log(`server started at https://localhost:${port}`);
+  });
