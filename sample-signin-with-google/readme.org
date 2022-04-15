@@ -1,0 +1,40 @@
+#+title: Readme
+
+
+* How it works
+
+1. [[https://developers.google.com/identity/gsi/web/guides/display-button][code snippet]] for how to add the button and one-tap
+   #+begin_src html
+<html>
+  <body>
+      <script src="https://accounts.google.com/gsi/client" async defer></script>
+      <script>
+        function handleCredentialResponse(response) {
+          console.log("Encoded JWT ID token: " + response.credential);
+        }
+        window.onload = function () {
+          google.accounts.id.initialize({
+            client_id: "YOUR_GOOGLE_CLIENT_ID",
+            callback: handleCredentialResponse
+          });
+          google.accounts.id.renderButton(
+            document.getElementById("buttonDiv"),
+            { theme: "outline", size: "large" }  // customization attributes
+          );
+          google.accounts.id.prompt(); // also display the One Tap dialog
+        }
+    </script>
+    <div id="buttonDiv"></div>
+  </body>
+</html>
+   #+end_src
+2. The gsi client library will send this request to determine whether exists account
+   #+begin_src restclient
+GET https://accounts.google.com/gsi/status?client_id=xxx&as=FPHLIzkWb+EmSXBC6ap9Ng
+   #+end_src
+
+   + hence if third-party cookie is block (ITP), it won't work.
+   + even the [[https://developers.google.com/identity/gsi/web/reference/js-reference#itp_support][itp_support]] doesn't help in Safari, Firefox etc so long as cookie is not pass when cross domain.
+
+3. The gsc client library will append a iframe to display the one-tap
+   + ~https://accounts.google.com/gsi/iframe/select~
