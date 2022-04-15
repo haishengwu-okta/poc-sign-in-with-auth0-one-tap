@@ -1,13 +1,14 @@
 #+title: Readme
 
 
-* TODO [3/6]
+* TODO [6/7]
 1. [X] user login in ~index.ejs~
 2. [X] how to login user?
    - ~/authorize~ call
    - handle callback
    - redirect to ~/~
 3. [X] make sure session exists
-3. [ ] enable CORS
-4. [ ] add api ~/account/state~
-5. [ ] add api ~/account/select~
+4. [X] enable CORS
+5. [X] add api ~/account~
+6. [X] add api ~/iframe/select~
+7. [ ] handler for ~continue as...~ button

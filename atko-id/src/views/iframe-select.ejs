@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>SignIn with AtkoID</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+         .container {
+             border: 1px solid grey;
+             border-radius: 5px;
+             padding: 10px;
+         }
+         button {
+             padding: 5px;
+             background-color: #1662dd;
+             color: white;
+             border: 0;
+             border-radius: 5px;
+         }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h3>SignIn with Atko.ID</h3>
+            <hr/>
+            <h3 class="header">
+                <img src=<%=user.picture%> style="width:30px;height:30px;border-radius:15px;" />
+                <%= user.email %>
+            </h3>
+            <button>Continue as <%= user.name%></button>
+            <p class="wk4LHf" id="gdpr-message" tabindex="-1">
+                To create your account, AtkoID will share your name, email address,
+                and profile picture with pokta POC - SignIn with AtkoID.
+            </p>
+        </div>
+    </body>
+</html>
